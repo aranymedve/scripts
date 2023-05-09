@@ -11,7 +11,11 @@ sudo update-crypto-policies --set DEFAULT:FEDORA32
 
 sudo dnf update -y
 sudo dnf upgrade -y
-sudo dnf install calibre dnf-utils vlc gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel lame\* --exclude=lame-devel https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted \*-firmware gnome-tweaks gnome-extensions-app gnome-tweak-tool 'google-roboto*' 'mozilla-fira*' fira-code-fonts tlp tlp-rdw steam remmina mc @development-tools kernel-headers kernel-devel dkms bridge-utils libvirt virt-install qemu-kvm -y
+sudo dnf install calibre dnf-utils vlc -y
+sudo dnf install gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel lame\* --exclude=lame-devel -y
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted -y
+sudo dnf install \*-firmware gnome-tweaks gnome-extensions-app gnome-tweak-tool 'google-roboto*' 'mozilla-fira*' fira-code-fonts -y
+sudo dnf install tlp tlp-rdw steam remmina mc @development-tools kernel-headers kernel-devel dkms bridge-utils libvirt virt-install qemu-kvm -y
 
 sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
 
