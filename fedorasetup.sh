@@ -41,8 +41,8 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 sudo dnf check-update -y 
 sudo dnf install code -y
 
-sudo dnf -y install qemu-kvm libvirt virt-install cirt-manager
-sudo dnf -y install edk2-ovmf swtpm swtpm-tools 
-sudo systemctl enable --now libvirtd 
+#sudo dnf -y install qemu-kvm libvirt virt-install cirt-manager
+#sudo dnf -y install edk2-ovmf swtpm swtpm-tools 
+#sudo systemctl enable --now libvirtd
 
 
