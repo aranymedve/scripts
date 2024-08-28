@@ -31,19 +31,21 @@ flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
 flatpak install -y md.obsidian.Obsidian
 flatpak install -y com.sindresorhus.Caprine
-flatpak install -y com.heroicgameslauncher.hgl
+#flatpak install -y com.heroicgameslauncher.hgl
 flatpak install -y com.bitwarden.desktop
 flatpak install -y com.anydesk.Anydesk
 flatpak install -y com.github.d4nj1.tlpui
 #flatpak install -y com.visualstudio.code 
-#flatpak install -y com.calibre_ebook.calibre
+flatpak install -y com.calibre_ebook.calibre
 flatpak install -y com.emqx.MQTTX 
 flatpak install -y com.adobe.Reader 
 
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc -y
+sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 sudo dnf check-update -y 
 sudo dnf install code -y
+sudo dnf install microsoft-edge-stable -y
 
 #sudo dnf -y install qemu-kvm libvirt virt-install cirt-manager
 #sudo dnf -y install edk2-ovmf swtpm swtpm-tools 
