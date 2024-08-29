@@ -46,6 +46,7 @@ flatpak install -y com.calibre_ebook.calibre
 flatpak install -y com.emqx.MQTTX 
 flatpak install -y com.adobe.Reader 
 flatpak install -y flathub io.freetubeapp.FreeTube
+flatpak install -y flathub com.spotify.Client
 
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc -y
 sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge
@@ -58,6 +59,9 @@ sudo dnf install microsoft-edge-stable -y
 #sudo dnf -y install edk2-ovmf swtpm swtpm-tools 
 #sudo systemctl enable --now libvirtd
 sudo gsettings set org.gnome.desktop.interface show-battery-percentage true
+sudo systemctl disable NetworkManager-wait-online.service
+sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
+
 
 # Telepítendő extension-ök
 # https://extensions.gnome.org/extension/5446/quick-settings-tweaker/
