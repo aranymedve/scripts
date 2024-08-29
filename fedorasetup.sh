@@ -21,7 +21,7 @@ sudo dnf install tlp tlp-rdw steam remmina mc @development-tools kernel-headers 
 sudo dnf config-manager --set-enabled fedora-cisco-openh264
 sudo dnf install -y gstreamer1-plugin-openh264 mozilla-openh264
 sudo dnf install -y NetworkManager-openconnect-gnome NetworkManager-openvpn-gnome NetworkManager-pptp-gnome NetworkManager-openconnect-gnome NetworkManager-l2tp-gnome
-sudo dnf install -y dconf-editor redshift 
+sudo dnf install -y dconf-editor redshift fastfetch 
 
 sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
 
@@ -37,11 +37,10 @@ flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
 flatpak install -y md.obsidian.Obsidian
 flatpak install -y com.sindresorhus.Caprine
-#flatpak install -y com.heroicgameslauncher.hgl
+flatpak install -y com.heroicgameslauncher.hgl
 flatpak install -y com.bitwarden.desktop
 flatpak install -y com.anydesk.Anydesk
 flatpak install -y com.github.d4nj1.tlpui
-#flatpak install -y com.visualstudio.code 
 flatpak install -y com.calibre_ebook.calibre
 flatpak install -y com.emqx.MQTTX 
 flatpak install -y com.adobe.Reader 
@@ -74,7 +73,7 @@ sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
 # https://extensions.gnome.org/extension/5263/gtk4-desktop-icons-ng-ding/
 # https://extensions.gnome.org/extension/6655/openweather/
 # https://extensions.gnome.org/extension/3088/extension-list/
-# 
+# https://extensions.gnome.org/extension/5489/search-light/
 
 
 
