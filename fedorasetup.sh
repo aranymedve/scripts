@@ -50,5 +50,7 @@ sudo dnf install microsoft-edge-stable -y
 #sudo dnf -y install qemu-kvm libvirt virt-install cirt-manager
 #sudo dnf -y install edk2-ovmf swtpm swtpm-tools 
 #sudo systemctl enable --now libvirtd
+sudo gsettings set org.gnome.desktop.interface show-battery-percentage true
+
 
 
