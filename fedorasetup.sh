@@ -21,7 +21,7 @@ sudo dnf install tlp tlp-rdw steam remmina mc @development-tools kernel-headers 
 sudo dnf config-manager --set-enabled fedora-cisco-openh264
 sudo dnf install -y gstreamer1-plugin-openh264 mozilla-openh264
 sudo dnf install -y NetworkManager-openconnect-gnome NetworkManager-openvpn-gnome NetworkManager-pptp-gnome NetworkManager-openconnect-gnome NetworkManager-l2tp-gnome
-sudo dnf install -y dconf-editor 
+sudo dnf install -y dconf-editor redshift 
 
 sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
 
