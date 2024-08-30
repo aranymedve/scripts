@@ -1,9 +1,9 @@
 #!/bin/bash
 sudo ls
-sudo echo 'fastestmirror=true' >> /etc/dnf/dnf.conf
-sudo echo 'deltarpm=true' >> /etc/dnf/dnf.conf
-sudo echo 'max_parallel_downloads=10' >> /etc/dnf/dnf.conf
-sudo echo 'defaultyes=true' >> /etc/dnf/dnf.conf 
+echo 'fastestmirror=true' | sudo tee -a /etc/dnf/dnf.conf
+echo 'deltarpm=true' | sudo tee -a /etc/dnf/dnf.conf
+echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
+echo 'defaultyes=true' | sudo tee -a /etc/dnf/dnf.conf 
 
 sudo hostnamectl set-hostname "beartp"
 
@@ -14,17 +14,16 @@ sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge
 sudo dnf config-manager --set-enabled fedora-cisco-openh264
 
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
-sudo dnf check-update -y 
 
-
-sudo dnf update -y
-sudo dnf upgrade -y
+sudo dnf upgrade --refresh
+sudo dnf check
 sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 sudo dnf install calibre dnf-utils vlc chrome-gnome-shell libdvdcss gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel lame\* --exclude=lame-devel rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted \*-firmware gnome-tweaks gnome-extensions-app gnome-tweak-tool 'google-roboto*' 'mozilla-fira*' fira-code-fonts tlp tlp-rdw steam remmina mc @development-tools kernel-headers kernel-devel dkms bridge-utils libvirt virt-install qemu-kvm gstreamer1-plugin-openh264 mozilla-openh264 NetworkManager-openconnect-gnome NetworkManager-openvpn-gnome NetworkManager-pptp-gnome NetworkManager-openconnect-gnome NetworkManager-l2tp-gnome dconf-editor redshift fastfetch code microsoft-edge-stable -y
 
 # sudo dnf groupupdate sound-and-video 
 
 sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
+sudo dnf autoremove
 
 #flatpak stuff
 
@@ -68,3 +67,32 @@ sudo fwupdmgr update
 # https://extensions.gnome.org/extension/6655/openweather/
 # https://extensions.gnome.org/extension/3088/extension-list/
 # https://extensions.gnome.org/extension/5489/search-light/
+
+# settings restore from external backup
+
+# export BACKUP=/run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/@home/$USER/
+# sudo rsync -avuP $BACKUP/Desktop ~/
+# sudo rsync -avuP $BACKUP/Documents ~/
+# sudo rsync -avuP $BACKUP/Downloads ~/
+# sudo rsync -avuP $BACKUP/Music ~/
+# sudo rsync -avuP $BACKUP/Pictures ~/
+# sudo rsync -avuP $BACKUP/Templates ~/
+# sudo rsync -avuP $BACKUP/Videos ~/
+# sudo rsync -avuP $BACKUP/.ssh ~/
+# sudo rsync -avuP $BACKUP/.gnupg ~/
+
+# sudo rsync -avuP $BACKUP/.local/share/applications ~/.local/share/
+# sudo rsync -avuP $BACKUP/.gitconfig ~/
+# sudo rsync -avuP $BACKUP/.gitkraken ~/
+# sudo rsync -avuP $BACKUP/.config/Nextcloud ~/.config/
+
+# sudo rsync -avuP $BACKUP/dynare ~/
+# sudo rsync -avuP $BACKUP/.dynare ~/
+# sudo rsync -avuP $BACKUP/Images ~/
+# sudo rsync -avuP $BACKUP/SofortUpload ~/
+# sudo rsync -avuP $BACKUP/Work ~/
+# sudo rsync -avuP $BACKUP/Zotero ~/
+# sudo rsync -avuP $BACKUP/MATLAB ~/
+# sudo rsync -avuP $BACKUP/.matlab ~/
+
+# sudo chown -R $USER:$USER /home/$USER # make sure I own everything
