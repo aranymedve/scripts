@@ -12,7 +12,9 @@ echo 'deb [signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.mi
 
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install lame\* fwupd \*-firmware gnome-tweaks remmina mc dkms bridge-utils build-essential autoconf automake gdb libffi-dev zlib1g-dev libssl-dev git wget gpg timeshift  git curl wget vlc chrome-gnome-shell \*-firmware gnome-extensions-app steam-devices remmina mc dkms bridge-utils  network-manager-openconnect-gnome network-manager-openvpn-gnome network-manager-pptp-gnome network-manager-openconnect-gnome network-manager-l2tp-gnome dconf-editor redshift code microsoft-edge-stable flatpak -y
+sudo apt-get remove atmel-firmware
+sudo apt-get install -f
+sudo apt install lame\* fwupd gnome-tweaks remmina mc dkms bridge-utils build-essential autoconf automake gdb libffi-dev zlib1g-dev libssl-dev git wget gpg timeshift  git curl wget vlc chrome-gnome-shell gnome-extensions-app steam-devices remmina mc dkms bridge-utils  network-manager-openconnect-gnome network-manager-openvpn-gnome network-manager-pptp-gnome network-manager-openconnect-gnome network-manager-l2tp-gnome dconf-editor redshift code flatpak -y
 
 sudo fwupdmgr refresh --force
 sudo fwupdmgr get-updates
@@ -21,9 +23,9 @@ sudo fwupdmgr update
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y org.gnome.Extensions
 flatpak install -y com.mattjakeman.ExtensionManager
-flatpak install -y com.viber.Viber
-flatpak install -y com.synology.SynologyDrive
-flatpak install -y com.synology.SynologyAssistant
+#flatpak install -y com.viber.Viber
+#flatpak install -y com.synology.SynologyDrive
+#flatpak install -y com.synology.SynologyAssistant
 flatpak install -y md.obsidian.Obsidian
 flatpak install -y com.sindresorhus.Caprine
 flatpak install -y com.heroicgameslauncher.hgl
