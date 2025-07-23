@@ -42,7 +42,7 @@ flatpak install -y com.bitwarden.desktop
 flatpak install -y com.anydesk.Anydesk
 #flatpak install -y com.github.d4nj1.tlpui
 #flatpak install -y com.visualstudio.code
-flatpak install -y com.calibre_ebook.calibre
+#flatpak install -y com.calibre_ebook.calibre
 flatpak install -y com.emqx.MQTTX
 flatpak install -y com.adobe.Reader
 #flatpak install -y io.freetubeapp.FreeTube
@@ -83,4 +83,6 @@ Passphrase: Medve63383!
 EOA
 gpg --batch --generate-key /home/zsolt/gpginput.txt
 pass init $(gpg --list-secret-keys --keyid-format=long --with-colons | awk -F: '/^sec/ {print $5}')
+
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
