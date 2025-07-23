@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo hostnamectl set-hostname "beartp"
 
+sudo dpkg --add-architecture i386
 sudo apt update
 sudo apt install wget
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -16,7 +17,7 @@ Architectures: amd64,arm64,armhf
 Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
 
-sudo apt install -y netselect-apt mc remmina git make wget build-essential gpg vlc code flatpak software-properties-common apt-transport-https ca-certificates curl flatpak code
+sudo apt install -y netselect-apt mc remmina git make wget build-essential gpg vlc code apt-transport-https sudo network-manager-openvpn network-manager-l2tp ca-certificates curl flatpak code steam-installer
 
 sudo netselect-apt trixie
 sudo cp sources.list /etc/apt/sources.list
