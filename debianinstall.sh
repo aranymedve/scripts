@@ -17,7 +17,7 @@ Architectures: amd64,arm64,armhf
 Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
 
-sudo apt install -y netselect-apt mc remmina git make wget build-essential gpg vlc code apt-transport-https sudo network-manager-openvpn network-manager-l2tp ca-certificates curl flatpak code steam-installer
+sudo apt install -y netselect-apt mc remmina git make wget build-essential gpg vlc code apt-transport-https sudo network-manager-openvpn network-manager-l2tp ca-certificates curl flatpak code steam-installer flameshot
 
 sudo netselect-apt trixie
 sudo cp sources.list /etc/apt/sources.list
