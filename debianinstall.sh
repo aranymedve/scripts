@@ -16,11 +16,11 @@ Components: main
 Architectures: amd64,arm64,armhf
 Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
-
+sudo apt update
 sudo apt install -y netselect-apt mc remmina git \
-  make wget build-essential gpg vlc code apt-transport-https \
+  make wget build-essential gpg vlc apt-transport-https \
   sudo network-manager-openvpn network-manager-l2tp \
-  ca-certificates curl flatpak steam-installer flameshot
+  ca-certificates curl flatpak flameshot
 
 sudo netselect-apt bookworm
 sudo cp sources.list /etc/apt/sources.list
