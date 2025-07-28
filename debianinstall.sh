@@ -3,7 +3,7 @@ sudo hostnamectl set-hostname "beartp"
 
 sudo dpkg --add-architecture i386
 sudo apt update
-sudo apt install wget
+sudo apt-get install wget gpg
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 sudo install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg
 rm -f microsoft.gpg
@@ -17,17 +17,22 @@ Architectures: amd64,arm64,armhf
 Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
 
-sudo apt install -y netselect-apt mc remmina git make wget build-essential gpg vlc code apt-transport-https sudo network-manager-openvpn network-manager-l2tp ca-certificates curl flatpak code steam-installer flameshot
+sudo apt install -y netselect-apt mc remmina git \
+  make wget build-essential gpg vlc code apt-transport-https \
+  sudo network-manager-openvpn network-manager-l2tp \
+  ca-certificates curl flatpak steam-installer flameshot
 
-sudo netselect-apt trixie
+sudo netselect-apt bookworm
 sudo cp sources.list /etc/apt/sources.list
 sudo apt update
 sudo apt upgrade -y
 
+sudo apt install software-properties-common apt-transport-https ca-certificates curl -y
 curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
 echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
 sudo apt update
-sudo apt install google-chrome-stable
+sudo apt install google-chrome-stable -y
+
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 #flatpak install -y org.gnome.Extensions
