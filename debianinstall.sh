@@ -1,7 +1,6 @@
 #!/bin/bash
 sudo hostnamectl set-hostname "beartp"
 
-sudo dpkg --add-architecture i386
 sudo apt update
 sudo apt-get install wget gpg
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -20,18 +19,18 @@ sudo apt update
 sudo apt install -y netselect-apt mc remmina git \
   make wget build-essential gpg vlc apt-transport-https \
   sudo network-manager-openvpn network-manager-l2tp \
-  ca-certificates curl flatpak flameshot
+  ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0
 
-sudo netselect-apt bookworm
+
+git config --global user.name "Zsolt Aranyi"
+git config --global user.email aranymedve@gmail.com
+
+sudo netselect-apt trixie
 sudo cp sources.list /etc/apt/sources.list
 sudo apt update
 sudo apt upgrade -y
 
 sudo apt install software-properties-common apt-transport-https ca-certificates curl -y
-curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
-echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
-sudo apt update
-sudo apt install google-chrome-stable -y
 
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -52,6 +51,7 @@ flatpak install -y com.emqx.MQTTX
 flatpak install -y com.adobe.Reader
 #flatpak install -y io.freetubeapp.FreeTube
 flatpak install -y com.spotify.Client
+flatpak install -y org.telegram.desktop
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
