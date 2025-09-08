@@ -39,7 +39,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y com.viber.Viber
 flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
-#flatpak install -y md.obsidian.Obsidian
+flatpak install -y md.obsidian.Obsidian
 flatpak install -y com.sindresorhus.Caprine
 flatpak install -y com.heroicgameslauncher.hgl
 flatpak install -y com.bitwarden.desktop
@@ -52,6 +52,7 @@ flatpak install -y com.adobe.Reader
 #flatpak install -y io.freetubeapp.FreeTube
 flatpak install -y com.spotify.Client
 flatpak install -y org.telegram.desktop
+flatpak install -y org.remmina.Remmina
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
