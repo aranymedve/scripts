@@ -35,16 +35,12 @@ sudo apt install -y mc remmina git \
   sudo network-manager-openvpn network-manager-l2tp \
   ca-certificates curl flatpak flameshot
 
-#sudo netselect-apt bookworm
+#sudo netselect-apt trixie
 #sudo cp sources.list /etc/apt/sources.list
-#sudo apt update
+sudo apt update
 sudo apt upgrade -y
 
 sudo apt install software-properties-common apt-transport-https ca-certificates curl -y
-#curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
-#echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
-#sudo apt update
-#sudo apt install google-chrome-stable -y
 
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -69,8 +65,9 @@ flatpak install -y com.spotify.Client
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
 # Add Docker's official GPG key:
+# Add Docker's official GPG key:
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -82,6 +79,7 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
 wget -O /home/zsolt/Downloads/docker-desktop-amd64.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
 sudo apt-get update
 sudo apt-get install -y /home/zsolt/Downloads/docker-desktop-amd64.deb
