@@ -1,5 +1,9 @@
 #!/bin/bash
 sudo hostnamectl set-hostname "beartp"
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo sed -i 's/main/main contrib non-free non-free-firmware/g' /etc/apt/sources.list
+sudo dpkg --add-architecture i386
+
 
 sudo apt update
 sudo apt-get install wget gpg
@@ -19,7 +23,8 @@ sudo apt update
 sudo apt install -y netselect-apt mc remmina git \
   make wget build-essential gpg vlc apt-transport-https \
   sudo network-manager-openvpn network-manager-l2tp \
-  ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0
+  ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0 \
+  steam-installer steam-devices
 
 
 git config --global user.name "Zsolt Aranyi"
@@ -32,27 +37,19 @@ sudo apt upgrade -y
 
 sudo apt install apt-transport-https ca-certificates curl -y
 
+mkdir ~/.local/share/remmina
+cp remmina/* ~/.local/share/remmina/
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-#flatpak install -y org.gnome.Extensions
-#flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y com.viber.Viber
 flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
-#flatpak install -y md.obsidian.Obsidian
-#flatpak install -y com.sindresorhus.Caprine
 flatpak install -y com.heroicgameslauncher.hgl
-#flatpak install -y com.bitwarden.desktop
 flatpak install -y com.anydesk.Anydesk
-#flatpak install -y com.github.d4nj1.tlpui
-#flatpak install -y com.visualstudio.code
-#flatpak install -y com.calibre_ebook.calibre
 flatpak install -y com.emqx.MQTTX
 flatpak install -y com.adobe.Reader
-#flatpak install -y io.freetubeapp.FreeTube
 flatpak install -y com.spotify.Client
-#flatpak install -y org.telegram.desktop
-flatpak install -y org.remmina.Remmina
+flatpak install -y org.telegram.desktop
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
