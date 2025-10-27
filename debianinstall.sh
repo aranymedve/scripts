@@ -95,3 +95,19 @@ git clone https://github.com/Antynea/grub-btrfs.git
 cd grub-btrfs
 sudo make install
 
+cd ~/Letöltések
+wget https://download.getupnote.com/app/UpNote.AppImage
+chmod +x /home/zsolt/Letöltések/UpNote.AppImage
+touch ~/.local/share/applications/UpNote.desktop
+
+cat << 'EOB' | tee ~/.local/share/applications/UpNote.desktop
+[Desktop Entry]
+Name=UpNote
+Exec=/home/zsolt/Letöltések/UpNote.AppImage
+Icon=/home/zsolt/Letöltések/upnote_icon.png
+Type=Application
+Categories=Utility;
+Terminal=false
+EOB
+chmod +x ~/.local/share/applications/UpNote.desktop
+kbuildsycoca5
