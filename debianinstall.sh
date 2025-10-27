@@ -30,7 +30,7 @@ sudo cp sources.list /etc/apt/sources.list
 sudo apt update
 sudo apt upgrade -y
 
-sudo apt install software-properties-common apt-transport-https ca-certificates curl -y
+sudo apt install apt-transport-https ca-certificates curl -y
 
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -39,10 +39,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y com.viber.Viber
 flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
-flatpak install -y md.obsidian.Obsidian
-flatpak install -y com.sindresorhus.Caprine
+#flatpak install -y md.obsidian.Obsidian
+#flatpak install -y com.sindresorhus.Caprine
 flatpak install -y com.heroicgameslauncher.hgl
-flatpak install -y com.bitwarden.desktop
+#flatpak install -y com.bitwarden.desktop
 flatpak install -y com.anydesk.Anydesk
 #flatpak install -y com.github.d4nj1.tlpui
 #flatpak install -y com.visualstudio.code
@@ -51,7 +51,7 @@ flatpak install -y com.emqx.MQTTX
 flatpak install -y com.adobe.Reader
 #flatpak install -y io.freetubeapp.FreeTube
 flatpak install -y com.spotify.Client
-flatpak install -y org.telegram.desktop
+#flatpak install -y org.telegram.desktop
 flatpak install -y org.remmina.Remmina
 
 sudo apt install -y gnome-terminal
