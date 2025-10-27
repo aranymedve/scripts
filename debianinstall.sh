@@ -24,7 +24,8 @@ sudo apt install -y netselect-apt mc remmina git \
   make wget build-essential gpg vlc apt-transport-https \
   sudo network-manager-openvpn network-manager-l2tp \
   ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0 \
-  steam-installer steam-devices timeshift
+  steam-installer steam-devices timeshift snapper btrfs-assistant \
+  inotify-tools
 
 
 git config --global user.name "Zsolt Aranyi"
@@ -88,4 +89,9 @@ gpg --batch --generate-key /home/zsolt/gpginput.txt
 pass init $(gpg --list-secret-keys --keyid-format=long --with-colons | awk -F: '/^sec/ {print $5}')
 
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
+cd ~
+git clone https://github.com/Antynea/grub-btrfs.git
+cd grub-btrfs
+sudo make install
 
