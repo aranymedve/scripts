@@ -24,7 +24,7 @@ sudo apt install -y netselect-apt mc remmina git \
   make wget build-essential gpg vlc apt-transport-https \
   sudo network-manager-openvpn network-manager-l2tp \
   ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0 \
-  steam-installer steam-devices
+  steam-installer steam-devices timeshift
 
 
 git config --global user.name "Zsolt Aranyi"
