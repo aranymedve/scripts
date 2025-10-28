@@ -52,6 +52,7 @@ flatpak install -y com.adobe.Reader
 flatpak install -y com.spotify.Client
 flatpak install -y org.telegram.desktop
 flatpak install -y com.github.IsmaelMartinez.teams_for_linux
+flatpak install -y com.freerdp.FreeRDP
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
