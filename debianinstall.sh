@@ -53,6 +53,9 @@ flatpak install -y com.spotify.Client
 flatpak install -y org.telegram.desktop
 flatpak install -y com.github.IsmaelMartinez.teams_for_linux
 flatpak install -y com.freerdp.FreeRDP
+flatpak install -y it.mijorus.gearlever
+
+wget -O /home/zsolt/Letöltések/UpNote.AppImage https://download.getupnote.com/app/UpNote.AppImage
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:

@@ -1,8 +1,0 @@
-# Debian packages for trixie
-deb http://ftp.es.debian.org/debian/ trixie main contrib
-# Uncomment the deb-src line if you want 'apt-get source'
-# to work with most packages.
-# deb-src http://ftp.es.debian.org/debian/ trixie main contrib
-
-# Security updates for stable
-# deb http://security.debian.org/ stable-security main contrib
