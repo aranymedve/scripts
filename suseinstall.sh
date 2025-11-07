@@ -21,19 +21,23 @@ git config --global user.email aranymedve@gmail.com
 mkdir ~/.local/share/remmina
 cp remmina/* ~/.local/share/remmina/
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y com.viber.Viber
-flatpak install -y com.synology.SynologyDrive
-flatpak install -y com.synology.SynologyAssistant
-flatpak install -y com.heroicgameslauncher.hgl
-flatpak install -y com.anydesk.Anydesk
-flatpak install -y com.emqx.MQTTX
-flatpak install -y com.adobe.Reader
-flatpak install -y com.spotify.Client
-flatpak install -y org.telegram.desktop
-flatpak install -y com.github.IsmaelMartinez.teams_for_linux
-flatpak install -y com.freerdp.FreeRDP
-flatpak install -y it.mijorus.gearlever
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak install -y --user com.viber.Viber
+sudo flatpak install -y com.synology.SynologyDrive
+sudo flatpak install -y com.synology.SynologyAssistant
+sudo flatpak install -y com.heroicgameslauncher.hgl
+sudo flatpak install -y com.anydesk.Anydesk
+sudo flatpak install -y com.emqx.MQTTX
+sudo flatpak install -y com.adobe.Reader
+sudo flatpak install -y com.spotify.Client
+sudo flatpak install -y org.telegram.desktop
+sudo flatpak install -y com.github.IsmaelMartinez.teams_for_linux
+sudo flatpak install -y com.freerdp.FreeRDP
+sudo flatpak install -y it.mijorus.gearlever
+
+sudo zypper addrepo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+
+sudo zypper install brave-browser
 
 wget -O /home/zsolt/Letöltések/UpNote.AppImage https://download.getupnote.com/app/UpNote.AppImage
 
