@@ -107,3 +107,17 @@ pass init "$(gpg --list-secret-keys --keyid-format=long --with-colons | awk -F: 
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
 rm -f "$TMP_GPGIN"
+
+
+
+sudo nmcli connection import type openvpn file $SCRIPT_DIR/Dimenzio.ovpn
+
+sudo nmcli connection modify "Dimenzio" vpn.user-name "aranyi.zsolt"
+sleep 1
+sudo sed -i 's/user-name/username/g' /etc/NetworkManager/system-connections/Dimenzio.nmconnection
+sudo nmcli connection reload
+
+sudo nmcli connection add type vpn con-name "3cx+" ifname -- vpn-type l2tp \
+  vpn.data "gateway=3cxplusz.smstar.hu,ipsec-enabled=yes,ipsec-psk=l\`Nv=oO3CJgf'\`6tn.\"h,mru=1400,mtu=1400" \
+  vpn.secrets "password=8\,t#BO.JL$W4.XYRdzBa,ipsec-secret=l\`Nv=oO3CJgf'\`6tn.\"h" \
+  ipv4.never-default yes ipv6.never-default yes
