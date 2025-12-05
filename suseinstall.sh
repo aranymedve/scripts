@@ -5,9 +5,16 @@ sudo hostnamectl set-hostname "beartp"
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" |sudo tee /etc/zypp/repos.d/vscode.repo > /dev/null
 
-sudo zypper dup
-sudo zypper --non-interactive install wget gpg git code mc remmina git make wget gpg vlc sudo NetworkManager-openvpn NetworkManager-l2tp ca-certificates curl flatpak flameshot libSDL2-2_0-0 steam steam-devices inotify-tools ca-certificates
 
+
+
+
+sudo zypper dup
+sudo zypper --non-interactive install wget gpg git code mc remmina git make wget gpg vlc sudo NetworkManager-openvpn NetworkManager-l2tp ca-certificates curl flatpak flameshot libSDL2-2_0-0 steam steam-devices inotify-tools ca-certificates plasma-nm5-l2tp strongswan strongswan-ipsec
+
+sudo zypper in --force NetworkManager-l2tp plasma-nm5-l2tp strongswan
+
+sudo systemctl enable --now strongswan
 
 git config --global user.name "Zsolt Aranyi"
 git config --global user.email aranymedve@gmail.com
@@ -29,9 +36,9 @@ sudo flatpak install -y com.github.IsmaelMartinez.teams_for_linux
 sudo flatpak install -y com.freerdp.FreeRDP
 sudo flatpak install -y it.mijorus.gearlever
 
-sudo zypper addrepo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+#sudo zypper addrepo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 
-sudo zypper install brave-browser
+#sudo zypper install brave-browser
 
 wget -O /home/zsolt/Letöltések/UpNote.AppImage https://download.getupnote.com/app/UpNote.AppImage
 
