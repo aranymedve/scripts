@@ -31,7 +31,7 @@ sudo apt install -y netselect-apt mc remmina git \
   sudo network-manager-openvpn network-manager-l2tp \
   ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0 \
   steam-installer steam-devices timeshift snapper btrfs-assistant \
-  inotify-tools gamemode
+  inotify-tools gamemode mesa-vulkan-drivers vulkan-tools
 
 
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
