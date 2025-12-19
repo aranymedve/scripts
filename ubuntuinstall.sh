@@ -29,11 +29,14 @@ sudo apt update
 sudo apt install -y code
 
 
+sudo add-apt-repository universe -y
 
 sudo apt install -y mc remmina git \
   make wget build-essential gpg vlc apt-transport-https \
-  sudo network-manager-openvpn network-manager-l2tp \
-  ca-certificates curl flatpak flameshot
+  sudo network-manager-openvpn-gnome network-manager-l2tp-gnome \
+  ca-certificates curl flatpak flameshot libfuse2t64 \
+  gnome-software gnome-software-plugin-flatpak mesa-vulkan-drivers \
+  vulkan-tools mesa-vulkan-drivers:i386
 
 #sudo netselect-apt trixie
 #sudo cp sources.list /etc/apt/sources.list
@@ -44,8 +47,8 @@ sudo apt install software-properties-common apt-transport-https ca-certificates 
 
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-#flatpak install -y org.gnome.Extensions
-#flatpak install -y com.mattjakeman.ExtensionManager
+flatpak install -y org.gnome.Extensions
+flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y com.viber.Viber
 flatpak install -y com.synology.SynologyDrive
 flatpak install -y com.synology.SynologyAssistant
@@ -61,6 +64,10 @@ flatpak install -y com.emqx.MQTTX
 flatpak install -y com.adobe.Reader
 #flatpak install -y io.freetubeapp.FreeTube
 flatpak install -y com.spotify.Client
+flatpak install -y org.telegram.desktop
+flatpak install -y com.github.IsmaelMartinez.teams_for_linux
+flatpak install -y com.freerdp.FreeRDP
+flatpak install -y it.mijorus.gearlever
 
 sudo apt install -y gnome-terminal
 # Add Docker's official GPG key:
@@ -80,9 +87,9 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-wget -O /home/zsolt/Downloads/docker-desktop-amd64.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
+wget -O /home/zsolt/Letöltések/docker-desktop-amd64.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
 sudo apt-get update
-sudo apt-get install -y /home/zsolt/Downloads/docker-desktop-amd64.deb
+sudo apt-get install -y /home/zsolt/Letöltések/docker-desktop-amd64.deb
 systemctl --user start docker-desktop
 
 cat << 'EOA' | tee /home/zsolt/gpginput.txt
