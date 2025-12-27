@@ -27,7 +27,7 @@ Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
 sudo apt update
 sudo apt install -y netselect-apt mc remmina git \
-  make wget build-essential gpg vlc \
+  make wget build-essential gpg vlc btop htop ncdu\
   sudo network-manager-openvpn network-manager-l2tp \
   ca-certificates curl flatpak flameshot code libsdl2-image-2.0-0 \
   steam-installer steam-devices timeshift snapper btrfs-assistant \
