@@ -35,10 +35,7 @@ sudo apt install -y netselect-apt mc remmina git \
 
 
 
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
-sudo apt update
-sudo apt install brave-browser -y
+
 
 git config --global user.name "Zsolt Aranyi"
 git config --global user.email aranymedve@gmail.com
@@ -53,19 +50,7 @@ mkdir -p "$HOME/.local/share/remmina"
 # copy remmina files (preserve attributes); ignore errors if none
 cp -a "$SCRIPT_DIR/remmina/." "$HOME/.local/share/remmina/" || true
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y com.viber.Viber
-flatpak install -y com.synology.SynologyDrive
-flatpak install -y com.synology.SynologyAssistant
-flatpak install -y com.heroicgameslauncher.hgl
-flatpak install -y com.anydesk.Anydesk
-flatpak install -y com.emqx.MQTTX
-flatpak install -y com.adobe.Reader
-flatpak install -y com.spotify.Client
-flatpak install -y org.telegram.desktop
-flatpak install -y com.github.IsmaelMartinez.teams_for_linux
-flatpak install -y com.freerdp.FreeRDP
-flatpak install -y it.mijorus.gearlever
+
 
 wget -O "$HOME/Letöltések/UpNote.AppImage" https://download.getupnote.com/app/UpNote.AppImage
 
@@ -113,10 +98,7 @@ rm -f "$TMP_GPGIN"
 
 sudo nmcli connection import type openvpn file $SCRIPT_DIR/Dimenzio.ovpn
 
-sudo nmcli connection modify "Dimenzio" vpn.user-name "aranyi.zsolt"
-sleep 1
-sudo sed -i 's/user-name/username/g' /etc/NetworkManager/system-connections/Dimenzio.nmconnection
-sudo nmcli connection reload
+
 
 sudo nmcli connection add type vpn con-name "3cx+" ifname -- vpn-type l2tp \
   vpn.data "gateway=3cxplusz.smstar.hu,ipsec-enabled=yes,ipsec-psk=l\`Nv=oO3CJgf'\`6tn.\"h,mru=1400,mtu=1400" \
@@ -124,3 +106,10 @@ sudo nmcli connection add type vpn con-name "3cx+" ifname -- vpn-type l2tp \
   ipv4.never-default yes ipv6.never-default yes
 
 cp $SCRIPT_DIR/gamemode.ini $HOME/.config/gamemode/gamemode.ini
+
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install -y com.viber.Viber com.synology.SynologyDrive com.synology.SynologyAssistant \
+  com.heroicgameslauncher.hgl com.anydesk.Anydesk com.emqx.MQTTX com.adobe.Reader \
+  com.spotify.Client org.telegram.desktop com.github.IsmaelMartinez.teams_for_linux \
+  com.freerdp.FreeRDP it.mijorus.gearlever || true
+
