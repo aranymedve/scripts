@@ -32,7 +32,7 @@ fi
 
 # Install packages from official repos
 sudo pacman -S --noconfirm --needed mc remmina make vlc btop htop ncdu \
-  networkmanager-openvpn networkmanager-l2tp openvpn ca-certificates curl \
+  fuse2 networkmanager-openvpn networkmanager-l2tp openvpn ca-certificates curl \
   flatpak flameshot gnome-terminal mesa vulkan-tools steam lutris
 
 # Flatpak apps
@@ -45,6 +45,24 @@ flatpak install -y com.viber.Viber com.synology.SynologyDrive com.synology.Synol
 # Docker
 sudo pacman -S --noconfirm --needed docker docker-compose
 sudo systemctl enable --now docker
+
+# Install Docker Desktop for Arch if available from Docker release notes
+TMPDIR=$(mktemp -d)
+RELEASE_PAGE="https://docs.docker.com/desktop/release-notes/"
+PKGURL=$(curl -fsSL "$RELEASE_PAGE" | grep -Eo 'https://[^"']+docker-desktop[^"']+\.pkg\.tar\.zst' | head -n1 || true)
+if [ -n "$PKGURL" ]; then
+  echo "Found Docker Desktop package: $PKGURL"
+  wget -qO "$TMPDIR/docker-desktop.pkg.tar.zst" "$PKGURL"
+  sudo pacman -U --noconfirm "$TMPDIR/docker-desktop.pkg.tar.zst" || true
+  rm -rf "$TMPDIR"
+  # Enable user service for Docker Desktop
+  systemctl --user enable --now docker-desktop || true
+else
+  echo "Could not find Docker Desktop package URL automatically."
+  echo "If you want to install it, download the latest Arch package from:"
+  echo "  https://docs.docker.com/desktop/release-notes/"
+  echo "Then run: sudo pacman -U /path/to/docker-desktop-<version>.pkg.tar.zst"
+fi
 
 # Configure git
 git config --global user.name "Zsolt Aranyi"
