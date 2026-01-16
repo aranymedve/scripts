@@ -111,5 +111,5 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y com.viber.Viber com.synology.SynologyDrive com.synology.SynologyAssistant \
   com.heroicgameslauncher.hgl com.anydesk.Anydesk com.emqx.MQTTX com.adobe.Reader \
   com.spotify.Client org.telegram.desktop com.github.IsmaelMartinez.teams_for_linux \
-  com.freerdp.FreeRDP it.mijorus.gearlever || true
+  com.freerdp.FreeRDP it.mijorus.gearlever com.github.iwalton3.jellyfin-media-player || true
 
