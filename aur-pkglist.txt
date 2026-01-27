@@ -1,0 +1,6 @@
+anydesk-bin
+jellyfin-desktop
+synology-drive
+telegram-desktop-bin
+viber
+visual-studio-code-bin
