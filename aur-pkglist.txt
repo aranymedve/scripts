@@ -1,6 +1,11 @@
 anydesk-bin
+calibre-bin
+hytale-launcher-bin
 jellyfin-desktop
+obs-studio-git
+spotify
 synology-drive
 telegram-desktop-bin
+upnote-appimage
 viber
 visual-studio-code-bin

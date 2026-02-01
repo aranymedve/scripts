@@ -23,6 +23,7 @@ btrfs-progs
 cachy-update
 cachyos-emerald-kde-theme-git
 cachyos-fish-config
+cachyos-gaming-meta
 cachyos-hello
 cachyos-hooks
 cachyos-iridescent-kde
@@ -66,8 +67,7 @@ fastfetch
 ffmpegthumbnailer
 ffmpegthumbs
 filelight
-firefox
-firefox-i18n-hu
+firefox-esr-bin
 firefoxpwa
 flameshot
 flatpak
@@ -85,6 +85,7 @@ gst-plugins-ugly
 gwenview
 haruna
 hdparm
+heroic-games-launcher-bin
 htop
 hwdetect
 hwinfo
