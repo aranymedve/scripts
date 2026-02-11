@@ -1,81 +1,74 @@
 #!/bin/bash
+set -euo pipefail
+trap 'echo "Error on line $LINENO: $BASH_COMMAND" >&2' ERR
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 sudo hostnamectl set-hostname "beartp"
 
+# Add Visual Studio Code repository
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 
-sudo dnf upgrade --refresh
-sudo dnf check
+# Add RPMFusion repositories
 sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
-sudo dnf install git curl wget calibre dnf-utils vlc rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted steam remmina mc @development-tools kernel-headers kernel-devel dkms bridge-utils libvirt virt-install qemu-kvm gstreamer1-plugin-openh264 mozilla-openh264 NetworkManager-openvpn NetworkManager-l2tp-gnome code -y
+# Update system
+sudo dnf upgrade --refresh -y
+sudo dnf check
 
-sudo dnf group install -y development-tools vlc
+# Install core packages with vulkan support
+sudo dnf install -y mc remmina git \
+  make wget build-essential gpg vlc btop htop ncdu \
+  NetworkManager-openvpn NetworkManager-l2tp-gnome \
+  ca-certificates curl flatpak flameshot code \
+  steam gamemode mesa-vulkan-drivers vulkan-tools \
+  kernel-headers kernel-devel dkms bridge-utils \
+  libvirt virt-install qemu-kvm gstreamer1-plugin-openh264 mozilla-openh264
 
+# Install development tools group
+sudo dnf group install -y development-tools
+
+# Install multimedia with optional codecs
 sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
-sudo dnf autoremove
 
-#flatpak stuff
+sudo dnf autoremove -y
+
+# Git configuration
+git config --global user.name "Zsolt Aranyi"
+git config --global user.email aranymedve@gmail.com
+
+# Copy remmina files
+mkdir -p "$HOME/.local/share/remmina"
+cp -a "$SCRIPT_DIR/remmina/." "$HOME/.local/share/remmina/" || true
+
+# Download UpNote AppImage
+mkdir -p "$HOME/Letöltések"
+wget -O "$HOME/Letöltések/UpNote.AppImage" https://download.getupnote.com/app/UpNote.AppImage
+
+# Install Docker Desktop
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+wget -O "$HOME/Letöltések/docker-desktop-x86_64.rpm" https://desktop.docker.com/linux/main/x86_64/docker-desktop-x86_64.rpm
+sudo dnf install -y "$HOME/Letöltések/docker-desktop-x86_64.rpm"
+systemctl --user start docker-desktop || true
+
+# Import Dimenzio VPN
+sudo nmcli connection import type openvpn file "$SCRIPT_DIR/Dimenzio.ovpn"
+
+# Copy gamemode config
+cp "$SCRIPT_DIR/gamemode.ini" "$HOME/.config/gamemode/gamemode.ini"
+
+# Flatpak setup
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y com.viber.Viber
-flatpak install -y com.synology.SynologyDrive
-flatpak install -y com.synology.SynologyAssistant
-flatpak install -y com.heroicgameslauncher.hgl
-flatpak install -y com.anydesk.Anydesk
-flatpak install -y com.emqx.MQTTX
-flatpak install -y com.adobe.Reader
-flatpak install -y com.spotify.Client
-flatpak install -y org.telegram.desktop
-flatpak install -y com.github.IsmaelMartinez.teams_for_linux
-flatpak install -y it.mijorus.gearlever
-#flatpak install -y com.freerdp.FreeRDP
+flatpak install -y com.viber.Viber com.synology.SynologyDrive com.synology.SynologyAssistant \
+  com.heroicgameslauncher.hgl com.anydesk.Anydesk com.emqx.MQTTX com.adobe.Reader \
+  com.spotify.Client org.telegram.desktop com.github.IsmaelMartinez.teams_for_linux \
+  com.freerdp.FreeRDP it.mijorus.gearlever com.github.iwalton3.jellyfin-media-player || true
 
-# vegyes tennivalók
-wget -O /home/zsolt/Letöltések/UpNote.AppImage https://download.getupnote.com/app/UpNote.AppImage
-
-
+# Firmware updates
 sudo fwupdmgr refresh --force
 sudo fwupdmgr get-updates
 sudo fwupdmgr update
 
-
-# Telepítendő extension-ök
-# https://extensions.gnome.org/extension/5446/quick-settings-tweaker/
-# https://extensions.gnome.org/extension/1401/bluetooth-quick-connect/
-# https://extensions.gnome.org/extension/5425/battery-time/
-# https://extensions.gnome.org/extension/615/appindicator-support/
-# https://extensions.gnome.org/extension/1112/screenshot-tool/
-# https://extensions.gnome.org/extension/779/clipboard-indicator/
-# https://extensions.gnome.org/extension/6/applications-menu/
-# https://extensions.gnome.org/extension/5263/gtk4-desktop-icons-ng-ding/
-# https://extensions.gnome.org/extension/6655/openweather/
-# https://extensions.gnome.org/extension/3088/extension-list/
-# https://extensions.gnome.org/extension/5489/search-light/
-
-# settings restore from external backup
-
-# export BACKUP=/run/media/$USER/NAME_OR_UUID_BACKUP_DRIVE/@home/$USER/
-# sudo rsync -avuP $BACKUP/Desktop ~/
-# sudo rsync -avuP $BACKUP/Documents ~/
-# sudo rsync -avuP $BACKUP/Downloads ~/
-# sudo rsync -avuP $BACKUP/Music ~/
-# sudo rsync -avuP $BACKUP/Pictures ~/
-# sudo rsync -avuP $BACKUP/Templates ~/
-# sudo rsync -avuP $BACKUP/Videos ~/
-# sudo rsync -avuP $BACKUP/.ssh ~/
-# sudo rsync -avuP $BACKUP/.gnupg ~/
-
-# sudo rsync -avuP $BACKUP/.local/share/applications ~/.local/share/
-# sudo rsync -avuP $BACKUP/.gitconfig ~/
-# sudo rsync -avuP $BACKUP/.gitkraken ~/
-# sudo rsync -avuP $BACKUP/.config/Nextcloud ~/.config/
-
-# sudo rsync -avuP $BACKUP/dynare ~/
-# sudo rsync -avuP $BACKUP/.dynare ~/
-# sudo rsync -avuP $BACKUP/Images ~/
-# sudo rsync -avuP $BACKUP/SofortUpload ~/
-# sudo rsync -avuP $BACKUP/Work ~/
-# sudo rsync -avuP $BACKUP/Zotero ~/
-# sudo rsync -avuP $BACKUP/MATLAB ~/
-# sudo rsync -avuP $BACKUP/.matlab ~/
-
-# sudo chown -R $USER:$USER /home/$USER # make sure I own everything
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
