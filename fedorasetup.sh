@@ -17,19 +17,28 @@ sudo dnf upgrade --refresh -y
 sudo dnf check
 
 # Install core packages with vulkan support
-sudo dnf install -y mc remmina git \
+sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
+sudo dnf install -y mc remmina git fuse fuse-libs \
   make wget build-essential gpg vlc btop htop ncdu \
   NetworkManager-openvpn NetworkManager-l2tp-gnome \
   ca-certificates curl flatpak flameshot code \
   steam gamemode mesa-vulkan-drivers vulkan-tools \
   kernel-headers kernel-devel dkms bridge-utils \
-  libvirt virt-install qemu-kvm gstreamer1-plugin-openh264 mozilla-openh264
-
+  mesa-dri-drivers vulkan-loader mesa-libGLU lutris mangohud \
+  mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld \
+  libvirt virt-install qemu-kvm gstreamer1-plugin-openh264 mozilla-openh264 \
+  gstreamer1-plugins-{bad-\*,good-\*,base} \
+  gstreamer1-plugin-openh264 gstreamer1-libav lame\* --exclude=gstreamer1-plugins-bad-free-devel
+  
 # Install development tools group
 sudo dnf group install -y development-tools
 
 # Install multimedia with optional codecs
-sudo dnf group upgrade --with-optional Multimedia core --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin sound-and-video -y
+sudo dnf group install -y multimedia
+sudo dnf group install -y sound-and-video
+
+# Install VA-API stuff
+sudo dnf install -y ffmpeg-libs libva libva-utils
 
 sudo dnf autoremove -y
 
@@ -53,6 +62,10 @@ wget -O "$HOME/Letöltések/docker-desktop-x86_64.rpm" https://desktop.docker.co
 sudo dnf install -y "$HOME/Letöltések/docker-desktop-x86_64.rpm"
 systemctl --user start docker-desktop || true
 
+#install Vivaldi browser
+sudo dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+sudo dnf install -y vivaldi-stable
+
 # Import Dimenzio VPN
 sudo nmcli connection import type openvpn file "$SCRIPT_DIR/Dimenzio.ovpn"
 
@@ -60,7 +73,9 @@ sudo nmcli connection import type openvpn file "$SCRIPT_DIR/Dimenzio.ovpn"
 cp "$SCRIPT_DIR/gamemode.ini" "$HOME/.config/gamemode/gamemode.ini"
 
 # Flatpak setup
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# Remove the limited Fedora repo
+flatpak remote-delete fedora || true
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo || true
 flatpak install -y com.viber.Viber com.synology.SynologyDrive com.synology.SynologyAssistant \
   com.heroicgameslauncher.hgl com.anydesk.Anydesk com.emqx.MQTTX com.adobe.Reader \
   com.spotify.Client org.telegram.desktop com.github.IsmaelMartinez.teams_for_linux \
@@ -72,3 +87,84 @@ sudo fwupdmgr get-updates
 sudo fwupdmgr update
 
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
+#flatpak auto update service
+# Create the service unit
+sudo tee /etc/systemd/system/flatpak-update.service > /dev/null <<'EOF'
+[Unit]
+Description=Update Flatpak apps automatically
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flatpak update -y --noninteractive
+EOF
+
+# Create the timer unit
+sudo tee /etc/systemd/system/flatpak-update.timer > /dev/null <<'EOF'
+[Unit]
+Description=Run Flatpak update every 24 hours
+Wants=network-online.target
+Requires=network-online.target
+After=network-online.target
+
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=24h
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# Reload systemd and enable the timer
+sudo systemctl daemon-reload
+sudo systemctl enable --now flatpak-update.timer
+
+# Check the status to verify everything is working
+sudo systemctl status flatpak-update.timer
+
+sudo systemctl disable NetworkManager-wait-online.service
+
+# Add TLP Repository 
+sudo dnf install -y \
+  https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc$(rpm -E %fedora).noarch.rpm
+
+# Remove conflicting power profiles daemon
+sudo dnf remove -y tuned tuned-ppd
+
+# Install TLP
+sudo dnf install -y tlp tlp-rdw
+
+# Enable TLP service 
+sudo systemctl enable tlp.service
+
+# Mask the following services to avoid conflicts
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
+
+#Encrypted DNS
+sudo dnf install dnsconfd
+
+sudo systemctl disable --now systemd-resolved
+sudo systemctl mask systemd-resolved
+sudo systemctl enable --now dnsconfd
+
+sudo mkdir -p /etc/NetworkManager/conf.d
+sudo tee /etc/NetworkManager/conf.d/global-dot.conf > /dev/null <<EOF
+[main]
+dns=dnsconfd
+
+[global-dns]
+resolve-mode=exclusive
+
+[global-dns-domain-*]
+servers=dns+tls://1.1.1.1#one.one.one.one
+EOF
+
+sudo systemctl restart NetworkManager
+
+#system snapshot setup
+sudo dnf install -y btrfs-assistant btrbk snapper
+sudo systemctl enable --now snapper-timeline.timer
+sudo systemctl enable --now snapper-cleanup.timer
+
+# Install deja-dup for easy backups
+sudo dnf install -y deja-dup
