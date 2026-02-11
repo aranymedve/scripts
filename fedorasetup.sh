@@ -31,14 +31,7 @@ sudo dnf install -y mc remmina git fuse fuse-libs \
   gstreamer1-plugin-openh264 gstreamer1-libav lame\* --exclude=gstreamer1-plugins-bad-free-devel
   
 # Install development tools group
-sudo dnf group install -y development-tools
-
-# Install multimedia with optional codecs
-sudo dnf group install -y multimedia
-sudo dnf group install -y sound-and-video
-
-# Install VA-API stuff
-sudo dnf install -y ffmpeg-libs libva libva-utils
+sudo dnf group install -y development-tools multimedia sound-and-video
 
 sudo dnf autoremove -y
 
@@ -55,7 +48,7 @@ mkdir -p "$HOME/Letöltések"
 wget -O "$HOME/Letöltések/UpNote.AppImage" https://download.getupnote.com/app/UpNote.AppImage
 
 # Install Docker Desktop
-sudo dnf install -y dnf-plugins-core
+sudo dnf install -y dnf-plugins-core deja-dup
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 wget -O "$HOME/Letöltések/docker-desktop-x86_64.rpm" https://desktop.docker.com/linux/main/x86_64/docker-desktop-x86_64.rpm
@@ -64,7 +57,7 @@ systemctl --user start docker-desktop || true
 
 #install Vivaldi browser
 sudo dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
-sudo dnf install -y vivaldi-stable
+sudo dnf install -y vivaldi-stable dnsconfd
 
 # Import Dimenzio VPN
 sudo nmcli connection import type openvpn file "$SCRIPT_DIR/Dimenzio.ovpn"
@@ -141,10 +134,7 @@ sudo systemctl enable tlp.service
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 
 #Encrypted DNS
-sudo dnf install dnsconfd
 
-sudo systemctl disable --now systemd-resolved
-sudo systemctl mask systemd-resolved
 sudo systemctl enable --now dnsconfd
 
 sudo mkdir -p /etc/NetworkManager/conf.d
@@ -165,6 +155,3 @@ sudo systemctl restart NetworkManager
 sudo dnf install -y btrfs-assistant btrbk snapper
 sudo systemctl enable --now snapper-timeline.timer
 sudo systemctl enable --now snapper-cleanup.timer
-
-# Install deja-dup for easy backups
-sudo dnf install -y deja-dup
