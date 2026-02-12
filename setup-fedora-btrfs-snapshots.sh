@@ -205,6 +205,8 @@ if $is_uefi; then
 else
   grub2-mkconfig -o /boot/grub2/grub.cfg || warn "grub2-mkconfig (BIOS) failed. Verify GRUB setup manually."
 fi
+log "Setting swappiness to 10 for better performance on desktop (optional)..."
+sudo echo vm.swappiness=10 | sudo tee /etc/sysctl.d/41-swappiness.conf
 
 log "All done ✅"
 echo
