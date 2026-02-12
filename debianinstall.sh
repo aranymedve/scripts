@@ -118,10 +118,9 @@ install_core_packages() {
         network-manager-openvpn network-manager-l2tp \
         ca-certificates curl flatpak flameshot code \
         steam-installer steam-devices \
-        vulkan-tools vulkan-loader libvulkan1 libvulkan1:i386 \
+        vulkan-tools libvulkan1 libvulkan1:i386 \
         gamemode libgamemode0 \
         libsdl2-image-2.0-0 \
-        libgl1-mesa-glx libgl1-mesa-glx:i386 \
         vainfo libva-glx2 libva-x11-2 gstreamer1.0-vaapi \
         bridge-utils \
         libvirt-daemon libvirt-clients qemu-system-x86 qemu-utils \
@@ -137,8 +136,7 @@ install_core_packages() {
         python3-dev python3-pip git-lfs
     
     log_info "Installing fonts and localization..."
-    sudo apt install -y fonts-dejavu fonts-liberation fonts-noto \
-        language-pack-hu
+    sudo apt install -y fonts-dejavu fonts-liberation fonts-noto
     
     log_info "Cleanup..."
     sudo apt autoremove -y
@@ -181,9 +179,16 @@ install_browsers() {
     log_info "Installing browsers..."
     
     log_info "Adding Vivaldi repository..."
-    wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | sudo apt-key add -
-    echo "deb https://repo.vivaldi.com/archive/deb/ stable main" | \
-        sudo tee /etc/apt/sources.list.d/vivaldi.list > /dev/null
+    curl -fsSL https://repo.vivaldi.com/archive/linux_signing_key.pub \
+        | sudo gpg --dearmor -o /usr/share/keyrings/vivaldi.gpg
+    sudo tee /etc/apt/sources.list.d/vivaldi.sources > /dev/null <<'EOF'
+Types: deb
+URIs: https://repo.vivaldi.com/stable/deb/
+Suites: stable
+Components: main
+Architectures: amd64 arm64 armhf
+Signed-By: /usr/share/keyrings/vivaldi.gpg
+EOF
     
     sudo apt update
     sudo apt install -y vivaldi-stable
@@ -204,11 +209,6 @@ setup_vpn() {
         log_warn "Dimenzio.ovpn not found in $SCRIPT_DIR"
     fi
     
-    log_info "Setting up 3CX+ L2TP VPN (if credentials available)..."
-    sudo nmcli connection add type vpn con-name "3cx+" ifname -- vpn-type l2tp \
-        vpn.data "gateway=3cxplusz.smstar.hu,ipsec-enabled=yes,ipsec-psk=l\`Nv=oO3CJgf'\`6tn.\"h,mru=1400,mtu=1400" \
-        vpn.secrets "password=8\,t#BO.JL$W4.XYRdzBa,ipsec-secret=l\`Nv=oO3CJgf'\`6tn.\"h" \
-        ipv4.never-default yes ipv6.never-default yes || true
     
     log_info "VPN setup complete!"
     press_enter
@@ -354,7 +354,7 @@ install_multimedia() {
     log_info "Installing multimedia codecs and support..."
     
     sudo apt install -y \
-        libav-tools ffmpeg \
+        ffmpeg \
         libavcodec-extra gstreamer1.0-libav \
         opus-tools \
         intel-media-va-driver-non-free
