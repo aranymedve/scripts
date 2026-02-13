@@ -7,6 +7,7 @@ DOWNLOADS_DIR="$HOME/Letöltések"
 REMMINA_DIR="$HOME/.local/share/remmina"
 GAMEMODE_DIR="$HOME/.config/gamemode"
 CONFIG_DIR="$HOME/.config"
+XFCE_CONFIG_DIR="$HOME/.config/xfce4"
 
 # Colors for output
 RED='\033[0;31m'
@@ -22,26 +23,28 @@ NC='\033[0m' # No Color
 show_menu() {
     clear
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║       Debian 13 Setup & Optimization Script                ║${NC}"
+    echo -e "${BLUE}║    Debian 13 + XFCE Setup & Optimization Script            ║${NC}"
     echo -e "${BLUE}╠════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${BLUE}║ 1.  System Setup (hostname, repos, updates)                ║${NC}"
-    echo -e "${BLUE}║ 2.  Install Core Packages & Development Tools              ║${NC}"
-    echo -e "${BLUE}║ 3.  Install & Configure Docker                             ║${NC}"
-    echo -e "${BLUE}║ 4.  Install Browsers (Vivaldi, Code)                       ║${NC}"
-    echo -e "${BLUE}║ 5.  Setup VPN Connections                                  ║${NC}"
-    echo -e "${BLUE}║ 6.  Setup Flatpak & Applications                           ║${NC}"
-    echo -e "${BLUE}║ 7.  Install Power Management (TLP)                         ║${NC}"
-    echo -e "${BLUE}║ 8.  Setup Encrypted DNS (Systemd-resolved)                 ║${NC}"
-    echo -e "${BLUE}║ 9.  Setup System Snapshots (Snapper)                       ║${NC}"
-    echo -e "${BLUE}║ 10. Setup Firmware Updates                                 ║${NC}"
-    echo -e "${BLUE}║ 11. Install Multimedia & Codecs                            ║${NC}"
-    echo -e "${BLUE}║ 12. Configure Git & Copy Config Files                      ║${NC}"
-    echo -e "${BLUE}║ 13. Install Calibre eBook Manager                          ║${NC}"
-    echo -e "${BLUE}║ 14. Generate GPG Keys & Password Manager                   ║${NC}"
-    echo -e "${BLUE}║ 15. Run All Steps                                          ║${NC}"
+    echo -e "${BLUE}║ 2.  Install XFCE Desktop Environment                       ║${NC}"
+    echo -e "${BLUE}║ 3.  Install Core Packages & Development Tools              ║${NC}"
+    echo -e "${BLUE}║ 4.  Install & Configure Docker                             ║${NC}"
+    echo -e "${BLUE}║ 5.  Install Browsers (Vivaldi, Code)                       ║${NC}"
+    echo -e "${BLUE}║ 6.  Setup VPN Connections                                  ║${NC}"
+    echo -e "${BLUE}║ 7.  Setup Flatpak & Applications                           ║${NC}"
+    echo -e "${BLUE}║ 8.  Install Power Management (TLP)                         ║${NC}"
+    echo -e "${BLUE}║ 9.  Setup Encrypted DNS (Systemd-resolved)                 ║${NC}"
+    echo -e "${BLUE}║ 10. Setup System Snapshots (Snapper)                       ║${NC}"
+    echo -e "${BLUE}║ 11. Setup Firmware Updates                                 ║${NC}"
+    echo -e "${BLUE}║ 12. Install Multimedia & Codecs                            ║${NC}"
+    echo -e "${BLUE}║ 13. Configure Git & Copy Config Files                      ║${NC}"
+    echo -e "${BLUE}║ 14. Install Calibre eBook Manager                          ║${NC}"
+    echo -e "${BLUE}║ 15. Generate GPG Keys & Password Manager                   ║${NC}"
+    echo -e "${BLUE}║ 16. Configure XFCE Settings                                ║${NC}"
+    echo -e "${BLUE}║ 17. Run All Steps                                          ║${NC}"
     echo -e "${BLUE}║ 0.  Exit                                                   ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
-    echo -e "${YELLOW}Select an option [0-15]:${NC} "
+    echo -e "${YELLOW}Select an option [0-17]:${NC} "
 }
 
 # ============================================================================
@@ -114,15 +117,66 @@ EOF
     press_enter
 }
 
+install_xfce() {
+    log_info "Installing XFCE Desktop Environment..."
+    
+    log_info "Installing XFCE core packages..."
+    sudo apt install -y \
+        xfce4 \
+        xfce4-session \
+        xfce4-settings \
+        xfce4-panel \
+        xfce4-terminal \
+        xfce4-appfinder \
+        xfce4-notifyd \
+        xfce4-power-manager \
+        thunar thunar-archive-plugin thunar-media-tags-plugin \
+        tumbler \
+        mousepad \
+        parole \
+        xfce4-whiskermenu-plugin \
+        xfce4-pulseaudio-plugin \
+        xfce4-weather-plugin \
+        xfce4-timer-plugin \
+        xfce4-netload-plugin \
+        xfce4-genmon-plugin \
+        xfce4-systemload-plugin
+    
+    log_info "Installing lightdm display manager..."
+    sudo apt install -y lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+    
+    log_info "Setting lightdm as default display manager..."
+    echo "lightdm" | sudo tee /etc/X11/default-display-manager > /dev/null
+    
+    log_info "Installing additional XFCE utilities..."
+    sudo apt install -y \
+        xarchiver \
+        xfce4-dict \
+        xfce4-screenshooter \
+        xfce4-screensaver \
+        xfce4-taskmanager \
+        xfce4-clipman-plugin
+    
+    log_info "Installing lightweight applications for XFCE..."
+    sudo apt install -y \
+        galculator \
+        geany \
+        xsane \
+        gsimplecal 
+    
+    log_info "XFCE installation complete!"
+    press_enter
+}
+
 install_core_packages() {
     log_info "Installing core packages and development tools..."
     
+    # Optimized for XFCE - removed heavy packages, focused on lightweight alternatives
     sudo apt install -y \
         mc remmina git fuse libfuse2 \
-        make wget build-essential gpg vlc btop htop ncdu \
+        make wget build-essential gpg btop htop ncdu \
         network-manager-openvpn network-manager-l2tp \
         ca-certificates curl flatpak flameshot code \
-        steam-installer steam-devices \
         vulkan-tools libvulkan1 libvulkan1:i386 \
         gamemode libgamemode0 \
         libsdl2-image-2.0-0 \
@@ -134,7 +188,9 @@ install_core_packages() {
         gstreamer1.0-plugins-ugly lame sox libsox-fmt-all \
         timeshift snapper btrfs-assistant \
         inotify-tools deja-dup \
-        lutris mangohud
+        lutris mangohud \
+        engrampa \
+        transmission-gtk
     
     log_info "Installing development tools..."
     sudo apt install -y build-essential dkms linux-headers-$(uname -r) \
@@ -213,7 +269,6 @@ setup_vpn() {
     else
         log_warn "Dimenzio.ovpn not found in $SCRIPT_DIR"
     fi
-    
     
     log_info "VPN setup complete!"
     press_enter
@@ -432,6 +487,128 @@ EOA
     press_enter
 }
 
+configure_xfce() {
+    log_info "Configuring XFCE settings for optimal performance..."
+    
+    # Ensure XFCE config directory exists
+    mkdir -p "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml"
+    
+    log_info "Setting up XFCE panel configuration..."
+    # This creates a basic XFCE panel configuration file
+    mkdir -p "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml"
+    
+    log_info "Configuring window manager settings..."
+    cat > "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml/xfwm4.xml" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfwm4" version="1.0">
+  <property name="general" type="empty">
+    <property name="activate_action" type="string" value="bring"/>
+    <property name="borderless_maximize" type="bool" value="false"/>
+    <property name="Button3ClicksAction" type="string" value="minimize"/>
+    <property name="Button4ClicksAction" type="string" value="move"/>
+    <property name="Button5ClicksAction" type="string" value="resize"/>
+    <property name="click_to_focus" type="bool" value="true"/>
+    <property name="cycle_workspaces" type="bool" value="true"/>
+    <property name="double_click_time" type="int" value="250"/>
+    <property name="easy_click_focus" type="bool" value="true"/>
+    <property name="focus_delay" type="int" value="0"/>
+    <property name="focus_new" type="bool" value="true"/>
+    <property name="focus_protection" type="bool" value="false"/>
+    <property name="maximize_button_position" type="string" value="right"/>
+    <property name="placement_mode" type="string" value="center"/>
+    <property name="prevent_focus_stealing" type="bool" value="true"/>
+    <property name="raise_on_click" type="bool" value="true"/>
+    <property name="raise_on_focus" type="bool" value="false"/>
+    <property name="repeat_urgent_blink" type="bool" value="false"/>
+    <property name="restore_on_move" type="bool" value="false"/>
+    <property name="show_cycler" type="bool" value="true"/>
+    <property name="show_frame_shadow" type="bool" value="true"/>
+    <property name="snap_resist" type="bool" value="false"/>
+    <property name="snap_to_borders" type="bool" value="true"/>
+    <property name="snap_to_snap" type="bool" value="true"/>
+    <property name="snap_width" type="int" value="10"/>
+    <property name="theme" type="string" value="Default"/>
+    <property name="tile_on_move" type="bool" value="true"/>
+    <property name="title_alignment" type="string" value="center"/>
+    <property name="title_font" type="string" value="Sans Bold 11"/>
+    <property name="titleless_maximize" type="bool" value="false"/>
+    <property name="transition_time" type="int" value="200"/>
+    <property name="unredirect_overlays" type="bool" value="true"/>
+    <property name="use_compositing" type="bool" value="true"/>
+    <property name="workspace_count" type="int" value="4"/>
+    <property name="wrap_cycle" type="bool" value="true"/>
+    <property name="wrap_windows" type="bool" value="true"/>
+    <property name="wrap_workspaces" type="bool" value="false"/>
+    <property name="zoom_desktop" type="bool" value="false"/>
+  </property>
+</channel>
+EOF
+    
+    log_info "Configuring desktop settings..."
+    cat > "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml/xfce4-desktop.xml" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfce4-desktop" version="1.0">
+  <property name="backdrop" type="empty">
+    <property name="screen0" type="empty">
+      <property name="monitor0" type="empty">
+        <property name="brightness" type="int" value="100"/>
+        <property name="image-path" type="string" value="/usr/share/backgrounds/xfce/xfce-blue.jpg"/>
+        <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-blue.jpg"/>
+        <property name="image-style" type="int" value="5"/>
+      </property>
+    </property>
+  </property>
+  <property name="desktop" type="empty">
+    <property name="font-name" type="string" value=""/>
+    <property name="icon-style" type="string" value="File Icons"/>
+    <property name="menu-show-icons" type="bool" value="true"/>
+  </property>
+</channel>
+EOF
+    
+    log_info "Configuring power manager..."
+    cat > "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfce4-power-manager" version="1.0">
+  <property name="xfce4-power-manager" type="empty">
+    <property name="battery-critical-level" type="int" value="5"/>
+    <property name="battery-critical-action" type="int" value="3"/>
+    <property name="blank-on-ac" type="int" value="0"/>
+    <property name="blank-on-battery" type="int" value="45"/>
+    <property name="critical-power-action" type="int" value="0"/>
+    <property name="dpms-enabled" type="bool" value="true"/>
+    <property name="dpms-on-ac-off" type="uint" value="0"/>
+    <property name="dpms-on-ac-sleep" type="uint" value="0"/>
+    <property name="dpms-on-battery-off" type="uint" value="30"/>
+    <property name="dpms-on-battery-sleep" type="uint" value="0"/>
+    <property name="enable-dpms" type="bool" value="true"/>
+    <property name="inactivity-on-ac" type="uint" value="0"/>
+    <property name="inactivity-on-battery" type="uint" value="30"/>
+    <property name="lock-on-sleep" type="bool" value="true"/>
+    <property name="show-tray-icon" type="bool" value="true"/>
+  </property>
+</channel>
+EOF
+
+    log_info "Configuring appearance settings..."
+    cat > "$XFCE_CONFIG_DIR/xfconf/xfce-perchannel-xml/xsettings.xml" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xsettings" version="1.0">
+  <property name="Xft" type="empty">
+    <property name="Antialias" type="int" value="1"/>
+    <property name="Hinting" type="int" value="1"/>
+    <property name="HintStyle" type="string" value="hintslight"/>
+    <property name="RGBA" type="string" value="rgb"/>
+    <property name="DPI" type="int" value="96"/>
+  </property>
+</channel>
+EOF
+    
+    log_info "XFCE configuration complete!"
+    log_info "Changes will take effect on next login"
+    press_enter
+}
+
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
@@ -442,22 +619,25 @@ while true; do
     
     case $choice in
         1)  setup_system ;;
-        2)  install_core_packages ;;
-        3)  setup_docker ;;
-        4)  install_browsers ;;
-        5)  setup_vpn ;;
-        6)  setup_flatpak ;;
-        7)  setup_power_management ;;
-        8)  setup_encrypted_dns ;;
-        9)  setup_snapshots ;;
-        10) setup_firmware ;;
-        11) install_multimedia ;;
-        12) configure_git ;;
-        13) install_calibre ;;
-        14) setup_gpg_and_pass ;;
-        15)
+        2)  install_xfce ;;
+        3)  install_core_packages ;;
+        4)  setup_docker ;;
+        5)  install_browsers ;;
+        6)  setup_vpn ;;
+        7)  setup_flatpak ;;
+        8)  setup_power_management ;;
+        9)  setup_encrypted_dns ;;
+        10) setup_snapshots ;;
+        11) setup_firmware ;;
+        12) install_multimedia ;;
+        13) configure_git ;;
+        14) install_calibre ;;
+        15) setup_gpg_and_pass ;;
+        16) configure_xfce ;;
+        17)
             log_info "Running all setup steps..."
             setup_system
+            install_xfce
             install_core_packages
             install_multimedia
             setup_docker
@@ -471,6 +651,7 @@ while true; do
             setup_firmware
             install_calibre
             setup_gpg_and_pass
+            configure_xfce
             log_info "All setup steps completed!"
             press_enter
             ;;
